@@ -9,7 +9,11 @@ public class Main {
             System.out.println("На вашем счету осталось " + bankAccount.getAmount());
         } catch (LimitException Le) {
             System.out.println(Le.getMessage());
-            System.out.println("Вы сняли " + Le.getRemainingAmount());
+            try {
+                bankAccount.withDraw((int)Le.getRemainingAmount());
+            } catch (LimitException e) {
+                throw new RuntimeException(e);
+            }
             break;
         }
     }
